@@ -32,7 +32,7 @@ struct ContentView: View {
                 .lineSpacing(6)
                 .padding(.bottom, 4)
 
-                Section(header: Text("Hieroscope")
+                Section(header: Text("Hieroglyphes")
                         .font(.headline)
                         .padding(.top, 18)) {
                 }
@@ -79,7 +79,7 @@ struct ContentView: View {
                 }
                 .listRowInsets(EdgeInsets())
             }
-            .navigationBarTitle("Hieroglyphes", displayMode: .inline)
+            .navigationBarTitle("Hieroscope", displayMode: .inline)
             .accentColor(.secondary)
             .foregroundColor(Color(white: 0.2))
         }
