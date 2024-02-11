@@ -15,9 +15,24 @@ struct ContentView: View {
         NavigationView {
             List {
                 DisclosureGroup("About", isExpanded: $isAboutExpanded) {
-                    Text("tbc")
-                        .padding(4)
+                    Text("Hieroscope is a daily selection of visual mantras to help you reflect and anticpate your day, a portmanteau of horoscope and hieroglype, and a simple provocation to consider each day.")
+                        .padding(2)
                         .lineSpacing(3)
+
+                    Text("[Code by Duncan Gough](https://duncangough.com)")
+                        .padding(2)
+                        .font(.footnote)
+                        .lineSpacing(3)
+
+                    /*
+                     Link(destination: URL(string: "Code by Duncan Gough")!) {
+                        Text("https://duncangough.com")
+                            .foregroundColor(.primary)
+                            .underline()
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 18)
+                    */
                 }
                 .accentColor(.secondary)
                 .lineSpacing(6)
@@ -25,7 +40,7 @@ struct ContentView: View {
 
                 DisclosureGroup("Installation", isExpanded: $isInstallationExpanded) {
                     Text("To add Hieroscope to your home screen, press and hold on the screen until the apps enter editing mode, tap the plus icon, select 'Hieroscope' from the widget gallery, choose the desired size, and tap 'Add Widget'. Position it as preferred and press 'Done' to complete the setup.")
-                        .padding(4)
+                        .padding(2)
                         .lineSpacing(3)
                 }
                 .accentColor(.secondary)
@@ -66,20 +81,11 @@ struct ContentView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 18)
-
-                    Link(destination: URL(string: "https://duncangough.com")!) {
-                        Text("https://duncangough.com")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(.primary)
-                            .underline()
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 18)
                     .padding(.bottom, 24)
                 }
                 .listRowInsets(EdgeInsets())
             }
-            .navigationBarTitle("Hieroscope", displayMode: .inline)
+            .navigationBarTitle("Thee Hieroscope", displayMode: .inline)
             .accentColor(.secondary)
             .foregroundColor(Color(white: 0.2))
         }
