@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE9A33122B78C83D008379D3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB3B4872B0F99B10053776F /* ContentView.swift */; };
 		AEB3B4862B0F99B10053776F /* GlypheApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB3B4852B0F99B10053776F /* GlypheApp.swift */; };
 		AEB3B4882B0F99B10053776F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB3B4872B0F99B10053776F /* ContentView.swift */; };
 		AEB3B48A2B0F99B30053776F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEB3B4892B0F99B30053776F /* Assets.xcassets */; };
@@ -2035,6 +2036,7 @@
 			files = (
 				AEB3B4A52B0F99E50053776F /* AppIntent.swift in Sources */,
 				AEB3B49F2B0F99E50053776F /* GlypheWidgetBundle.swift in Sources */,
+				AE9A33122B78C83D008379D3 /* ContentView.swift in Sources */,
 				AEB724A82B398CCB0007AA3D /* GlypheWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
