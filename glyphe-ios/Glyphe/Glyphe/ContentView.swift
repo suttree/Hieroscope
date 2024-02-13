@@ -15,7 +15,7 @@ struct ContentView: View {
         NavigationView {
             List {
                 DisclosureGroup("About", isExpanded: $isAboutExpanded) {
-                    Text("Hieroscope is a daily selection of visual mantras to help you reflect and anticpate your day, a portmanteau of horoscope and hieroglype, and a simple provocation to consider each day.")
+                    Text("Hieroscope is a daily selection of visual mantras to help you reflect and anticipate your day, a portmanteau of horoscope and hieroglype, and a set of provocations to consider.")
                         .padding(2)
                         .lineSpacing(3)
 
@@ -23,16 +23,6 @@ struct ContentView: View {
                         .padding(2)
                         .font(.footnote)
                         .lineSpacing(3)
-
-                    /*
-                     Link(destination: URL(string: "Code by Duncan Gough")!) {
-                        Text("https://duncangough.com")
-                            .foregroundColor(.primary)
-                            .underline()
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 18)
-                    */
                 }
                 .accentColor(.secondary)
                 .lineSpacing(6)
@@ -54,7 +44,7 @@ struct ContentView: View {
                 .listStyle(GroupedListStyle())
                 
                 ScrollView {
-                    let icons = Array(iconNames.shuffled().prefix(24)) // Ensure it's an Array for easier indexing
+                    let icons = Array(iconNames.shuffled().prefix(24))
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(icons.indices, id: \.self) { index in
                             let iconName = icons[index]
@@ -67,16 +57,18 @@ struct ContentView: View {
                                 .scaledToFit()
                                 .frame(width: 50, height: 50)
                                 .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
-                                .opacity(opacity) // Apply dynamic opacity based on index
+                                .opacity(opacity)
                         }
                     }
                     .padding(.horizontal)
                     .padding(.top, 18)
+                    .padding(.bottom, 24)
+                    .background(Color.white)
                 
                     Link(destination: URL(string: "https://thenounproject.com/AliceNoir/")!) {
                         Text("Icons by Alice Noir")
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color.secondary)
                             .underline()
                     }
                     .padding(.horizontal)
@@ -87,12 +79,12 @@ struct ContentView: View {
             }
             .navigationBarTitle("Thee Hieroscope", displayMode: .inline)
             .accentColor(.secondary)
-            .foregroundColor(Color(white: 0.2))
         }
     }
 }
 
-
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
