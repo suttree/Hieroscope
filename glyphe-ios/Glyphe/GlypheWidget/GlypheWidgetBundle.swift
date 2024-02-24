@@ -28,5 +28,3 @@ struct GlypheWidget: Widget {
         .description("Thee Hieroscope")
     }
 }
-
-
