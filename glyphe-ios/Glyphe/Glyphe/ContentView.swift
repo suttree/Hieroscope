@@ -15,7 +15,7 @@ struct ContentView: View {
         NavigationView {
             List {
                 DisclosureGroup("About", isExpanded: $isAboutExpanded) {
-                    Text("Hieroscope is a daily selection of visual mantras to help you reflect and anticipate your day, a portmanteau of horoscope and hieroglype, and a set of provocations to consider.")
+                    Text("Glyphe is a daily selection of visual mantras to help you reflect and anticipate your day, a shortening of hieroglypes, and a set of provocations to consider.")
                         .padding(2)
                         .lineSpacing(3)
 
@@ -29,7 +29,7 @@ struct ContentView: View {
                 .padding(.bottom, 4)
 
                 DisclosureGroup("Installation", isExpanded: $isInstallationExpanded) {
-                    Text("To add Hieroscope to your home screen, press and hold on the screen until the apps enter editing mode, tap the plus icon, select 'Hieroscope' from the widget gallery, choose the desired size, and tap 'Add Widget'. Position it as preferred and press 'Done' to complete the setup.")
+                    Text("To add Glyphe to your home screen, press and hold on the screen until the apps enter editing mode, tap the plus icon, select 'Glyphe' from the widget gallery, choose the desired size, and tap 'Add Widget'. Position it as preferred and press 'Done' to complete the setup.")
                         .padding(2)
                         .lineSpacing(3)
                 }
@@ -37,7 +37,7 @@ struct ContentView: View {
                 .lineSpacing(6)
                 .padding(.bottom, 4)
 
-                Section(header: Text("Hieroglyphes")
+                Section(header: Text("Glyphes")
                         .font(.headline)
                         .padding(.top, 18)) {
                 }
@@ -77,7 +77,7 @@ struct ContentView: View {
                 }
                 .listRowInsets(EdgeInsets())
             }
-            .navigationBarTitle("Thee Hieroscope", displayMode: .inline)
+            .navigationBarTitle("Glyphe", displayMode: .inline)
             .accentColor(.secondary)
         }
     }
