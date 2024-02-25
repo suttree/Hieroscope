@@ -2,7 +2,7 @@ import Foundation
 import WidgetKit
 import SwiftUI
 
-let appGroupUserDefaultsID = "group.com.suttree.hieroscope"
+let appGroupUserDefaultsID = "group.com.suttree.glyphe"
 
 struct IconEntry: Codable {
     let date: Date
@@ -170,7 +170,7 @@ struct RandomIconsProvider: TimelineProvider {
         let icons = fetchRandomIconsIfNeeded(currentDate: Date())
         return RandomIconsEntry(date: Date(), icon1: icons[0], icon2: icons[1], icon3: icons[2], icon4: icons[3])
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (RandomIconsEntry) -> ()) {
         let icons = fetchRandomIconsIfNeeded(currentDate: Date())
         let entry = RandomIconsEntry(date: Date(), icon1: icons[0], icon2: icons[1], icon3: icons[2], icon4: icons[3])
@@ -178,7 +178,7 @@ struct RandomIconsProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        //resetDefaults()
+        resetDefaults()
 
         var entries: [RandomIconsEntry] = []
 
@@ -265,8 +265,6 @@ func saveIconEntries(_ entries: [IconEntry]) {
 
 func getSavedIconsFor(date: Date) -> [String]? {
     let entries = fetchIconEntries()
-print(entries)
-print("-----------")
     return entries.first { Calendar.current.isDate($0.date, inSameDayAs: date) }?.icons
 }
 

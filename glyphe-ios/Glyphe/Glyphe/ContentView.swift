@@ -1,8 +1,6 @@
 import WidgetKit
 import SwiftUI
 
-import SwiftUI
-
 struct ContentView: View {
     @State private var isAboutExpanded = false
     @State private var isInstallationExpanded = false
@@ -48,6 +46,7 @@ struct ContentView: View {
                                     Image(uiImage: img)
                                         .resizable()
                                         .scaledToFit()
+                                        .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
                                 }
                             }
                         }
@@ -56,25 +55,25 @@ struct ContentView: View {
                     }
                 }
 
-                Section(header: Text("Thee glyphes")
+                Section(header: Text("Glyphes")
                     .font(.headline)
                     .padding(.top, 18)) {
                     }
                     .listStyle(GroupedListStyle())
                 
                 ScrollView {
-                    let icons = Array(iconNames.shuffled().prefix(18))
+                    let icons = Array(iconNames.shuffled().prefix(20))
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(icons.indices, id: \.self) { index in
                             let iconName = icons[index]
                             let img = UIImage(named: iconName) ?? UIImage()
-                            let totalIcons = icons.count
+                            let totalIcons = icons.count + 2
                             let opacity = Double(totalIcons - index) / Double(totalIcons)
                             
                             Image(uiImage: img)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 50, height: 50)
+                                .frame(width: 60, height: 60)
                                 .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
                                 .opacity(opacity)
                         }
@@ -85,7 +84,7 @@ struct ContentView: View {
                     .background(Color.white)
                 
                     Link(destination: URL(string: "https://thenounproject.com/AliceNoir/")!) {
-                        Text("Glyhpes by Alice Noir")
+                        Text("Glyphes by Alice Noir")
                             .frame(maxWidth: .infinity, alignment: .center)
                             .foregroundColor(Color.secondary)
                             .underline()
