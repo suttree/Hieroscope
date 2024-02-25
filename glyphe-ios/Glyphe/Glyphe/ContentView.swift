@@ -38,6 +38,58 @@ struct ContentView: View {
                 .lineSpacing(6)
                 .padding(.bottom, 4)
 
+                Section(header: Text("Recent mantras")
+                        .font(.headline)
+                        .padding(.top, 18)) {
+                }
+                .listStyle(GroupedListStyle())
+
+                ForEach(iconEntries, id: \.date) { entry in
+                    let headerText = Text(dayString(from: entry.date))
+                    Section(header: headerText) {
+                        HStack() {
+                            ForEach(entry.icons[0].split(separator: ",").map(String.init), id: \.self) { iconName in
+                                Image(uiImage: iconName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
+                            }
+/*
+                            ForEach(entry.icons, id: \.self) { iconName in
+                                let img = UIImage(named: iconName) ?? UIImage()
+                                Image(uiImage: img)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
+                                    .opacity(1.0)
+                                Image(systemName: iconName)
+                                Image(systemName: "2.png")
+                            }
+*/
+                            /*
+                            Image(uiImage: entry.icon1)
+                                .resizable()
+                                .scaledToFit()
+                            
+                            */
+                            /*
+                            ForEach(entry.icons, id: \.self) { iconName in
+                                    Text("yo~ ")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                        .foregroundColor(Color(white: 0.2))
+                                        .lineSpacing(6)
+                                        .multilineTextAlignment(.leading)
+                            }*/
+                        }
+                        .padding(18)
+                        .listStyle(InsetGroupedListStyle())
+                    }
+                }
+                
+                /*
                 Section(header: Text("Visual mantras")
                     .font(.headline)
                     .padding(.top, 18)) {
@@ -67,15 +119,16 @@ struct ContentView: View {
                 .onAppear {
                     loadIconEntries()
                 }
+                */
 
-                Section(header: Text("Glyphes")
+                Section(header: Text("Thee glyphes")
                     .font(.headline)
                     .padding(.top, 18)) {
                     }
                     .listStyle(GroupedListStyle())
                 
                 ScrollView {
-                    let icons = Array(iconNames.shuffled().prefix(24))
+                    let icons = Array(iconNames.shuffled().prefix(18))
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(icons.indices, id: \.self) { index in
                             let iconName = icons[index]
@@ -110,6 +163,9 @@ struct ContentView: View {
             }
             .navigationBarTitle("Glyphe", displayMode: .inline)
             .accentColor(.secondary)
+            .onAppear {
+                loadIconEntries()
+            }
         }
     }
     
@@ -117,7 +173,6 @@ struct ContentView: View {
         if let defaults = UserDefaults(suiteName: appGroupUserDefaultsID) {
             if let savedData = defaults.data(forKey: "IconEntries") {
                 if let decodedEntries = try? JSONDecoder().decode([IconEntry].self, from: savedData) {
-                    // Update the state variable
                     self.iconEntries = decodedEntries
                 }
             }
@@ -125,13 +180,10 @@ struct ContentView: View {
     }
 }
 
-// Date formatter for displaying the date
-private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .long
-    formatter.timeStyle = .none
-    return formatter
-}()
+func dayString(from date: Date) -> String {
+    let dayString = Calendar.current.weekdaySymbols[Calendar.current.component(.weekday, from: date) - 1]
+    return "\(dayString)"
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
