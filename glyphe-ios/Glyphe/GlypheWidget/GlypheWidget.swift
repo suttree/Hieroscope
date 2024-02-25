@@ -178,7 +178,7 @@ struct RandomIconsProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        resetDefaults()
+        //resetDefaults()
 
         var entries: [RandomIconsEntry] = []
 

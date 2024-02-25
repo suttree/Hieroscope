@@ -16,13 +16,8 @@ struct ContentView: View {
         NavigationView {
             List {
                 DisclosureGroup("About", isExpanded: $isAboutExpanded) {
-                    Text("Glyphe is a daily selection of visual mantras to help you reflect and anticipate your day, a shortening of hieroglypes, and a set of provocations to consider.")
+                    Text("Glyphe is a daily selection of visual mantras to help you reflect and anticipate your day, a set of provocations to consider, and a way to bring some beauty back to your phone screen.")
                         .padding(2)
-                        .lineSpacing(3)
-                    
-                    Text("[Code by Duncan Gough](https://duncangough.com)")
-                        .padding(2)
-                        .font(.footnote)
                         .lineSpacing(3)
                 }
                 .accentColor(.secondary)
@@ -49,77 +44,17 @@ struct ContentView: View {
                     Section(header: headerText) {
                         HStack() {
                             ForEach(entry.icons[0].split(separator: ",").map(String.init), id: \.self) { iconName in
-                                Image(uiImage: iconName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
+                                if let img = UIImage(named: iconName.trimmingCharacters(in: .whitespacesAndNewlines)) {
+                                    Image(uiImage: img)
+                                        .resizable()
+                                        .scaledToFit()
+                                }
                             }
-/*
-                            ForEach(entry.icons, id: \.self) { iconName in
-                                let img = UIImage(named: iconName) ?? UIImage()
-                                Image(uiImage: img)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
-                                    .opacity(1.0)
-                                Image(systemName: iconName)
-                                Image(systemName: "2.png")
-                            }
-*/
-                            /*
-                            Image(uiImage: entry.icon1)
-                                .resizable()
-                                .scaledToFit()
-                            
-                            */
-                            /*
-                            ForEach(entry.icons, id: \.self) { iconName in
-                                    Text("yo~ ")
-                                        .font(.headline)
-                                        .foregroundColor(.primary)
-                                        .foregroundColor(Color(white: 0.2))
-                                        .lineSpacing(6)
-                                        .multilineTextAlignment(.leading)
-                            }*/
                         }
                         .padding(18)
                         .listStyle(InsetGroupedListStyle())
                     }
                 }
-                
-                /*
-                Section(header: Text("Visual mantras")
-                    .font(.headline)
-                    .padding(.top, 18)) {
-                    }
-                    .listStyle(GroupedListStyle())
-
-                List(iconEntries, id: \.date) { entry in
-                    Section(header: Text("\(entry.date, formatter: dateFormatter)").font(.headline)) {
-                        VStack(alignment: .leading) {
-                            // Show the icons in a HStack or a Text
-                            HStack {
-                                ForEach(entry.icons, id: \.self) { iconName in
-                                    // Assuming iconName is the name of the image
-                                    //Image(systemName: iconName)
-                                    //Text(iconName)
-                                    let img = UIImage(named: iconName) ?? UIImage()
-                                    Image(systemName: "1.png")
-                                    Image(uiImage: img)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .shadow(color: .gray, radius: 0.5, x: 0, y: 0)
-                                }
-                            }
-                        }
-                    }
-                }
-                .onAppear {
-                    loadIconEntries()
-                }
-                */
 
                 Section(header: Text("Thee glyphes")
                     .font(.headline)
@@ -150,7 +85,7 @@ struct ContentView: View {
                     .background(Color.white)
                 
                     Link(destination: URL(string: "https://thenounproject.com/AliceNoir/")!) {
-                        Text("Icons by Alice Noir")
+                        Text("Glyhpes by Alice Noir")
                             .frame(maxWidth: .infinity, alignment: .center)
                             .foregroundColor(Color.secondary)
                             .underline()
