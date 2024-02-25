@@ -31,8 +31,8 @@ struct HBorderView: View {
         let gradient = Gradient(stops: [
             .init(color: .clear, location: 0),
             .init(color: .clear, location: 0.25),
-            .init(color: .mint, location: 0.45),
-            .init(color: .mint, location: 0.55),
+            .init(color: .white, location: 0.45),
+            .init(color: .white, location: 0.55),
             .init(color: .clear, location: 0.75),
             .init(color: .clear, location: 1)
         ])
@@ -52,8 +52,8 @@ struct VBorderView: View {
             let gradient = Gradient(stops: [
                 .init(color: .clear, location: 0),
                 .init(color: .clear, location: 0.55),
-                .init(color: .mint, location: 0.75),
-                .init(color: .mint, location: 1)
+                .init(color: .white, location: 0.75),
+                .init(color: .white, location: 1)
             ])
             
             return LinearGradient(gradient: gradient,
@@ -62,8 +62,8 @@ struct VBorderView: View {
                 .frame(width: 1, height: nil)
         } else {
             let gradient = Gradient(stops: [
-                .init(color: .mint, location: 0),
-                .init(color: .mint, location: 0.25),
+                .init(color: .white, location: 0),
+                .init(color: .white, location: 0.25),
                 .init(color: .clear, location: 0.45),
                 .init(color: .clear, location: 1)
             ])
