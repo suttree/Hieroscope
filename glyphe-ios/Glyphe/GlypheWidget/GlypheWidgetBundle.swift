@@ -12,11 +12,9 @@ import SwiftUI
 struct GlypheWidgetBundle: WidgetBundle {
     var body: some Widget {
         GlypheWidget()
-        //GlypheWidgetLiveActivity()
     }
 }
 
-// Widget and Provider Registration
 struct GlypheWidget: Widget {
     let kind: String = "Glyphe Widget"
 

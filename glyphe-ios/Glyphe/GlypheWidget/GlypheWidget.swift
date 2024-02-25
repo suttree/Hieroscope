@@ -2,10 +2,13 @@ import Foundation
 import WidgetKit
 import SwiftUI
 
-// Define the App Group UserDefaults ID
 let appGroupUserDefaultsID = "group.com.suttree.hieroscope"
 
-// Core logic
+struct IconEntry: Codable {
+    let date: Date
+    let icons: [String]
+}
+
 struct RandomIconsEntry: TimelineEntry {
     let date: Date
     let icon1: UIImage
@@ -160,7 +163,6 @@ struct RandomIconsWidgetEntryView: View {
 struct RandomIconsProvider: TimelineProvider {
     typealias Entry = RandomIconsEntry
 
-    // UserDefaults to store the last update date
     let defaults = UserDefaults(suiteName: appGroupUserDefaultsID)
     let lastUpdateKey = "LastUpdateDate"
 
@@ -176,6 +178,8 @@ struct RandomIconsProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        //resetDefaults()
+
         var entries: [RandomIconsEntry] = []
 
         let calendar = Calendar.current
@@ -200,7 +204,6 @@ struct RandomIconsProvider: TimelineProvider {
         completion(timeline)
     }
 
-
     func fetchRandomIconsIfNeeded(currentDate: Date) -> [UIImage] {
         guard let sharedDefaults = UserDefaults(suiteName: appGroupUserDefaultsID) else {
             return [UIImage(named: "1.png") ?? UIImage(), UIImage(named: "2.png") ?? UIImage(), UIImage(named: "3.png") ?? UIImage(), UIImage(named: "4.png") ?? UIImage()]
@@ -216,11 +219,64 @@ struct RandomIconsProvider: TimelineProvider {
             
             sharedDefaults.set(array, forKey: "LastChosenIcons")
             sharedDefaults.set(currentDate, forKey: lastUpdateKey)
-            return iconNames.prefix(4).map { UIImage(named: $0) ?? UIImage() }
+            
+            let chosen_icons = iconNames.prefix(4)
+            saveIconsForTheDay(icons: [chosen_icons.joined(separator: ", ")])
+            return chosen_icons.map { UIImage(named: $0) ?? UIImage() }
         } else {
             let storedIconNames = sharedDefaults.stringArray(forKey: "LastChosenIcons") ?? ["1.png", "2.png", "3.png", "4.png"]
+            saveIconsForTheDay(icons: [storedIconNames.joined(separator: ", ")])
             return storedIconNames.map { UIImage(named: $0) ?? UIImage() }
         }
+    }
+}
+
+func saveIconsForTheDay(icons: [String]) {
+    let currentDate = Calendar.current.startOfDay(for: Date())
+    
+    var entries = fetchIconEntries()
+    
+    if !entries.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
+        let entry = IconEntry(date: currentDate, icons: icons)
+        entries.append(entry)
+        entries = Array(entries.suffix(7))
+        saveIconEntries(entries)
+    }
+}
+
+func fetchIconEntries() -> [IconEntry] {
+    if let defaults = UserDefaults(suiteName: appGroupUserDefaultsID) {
+        if let savedData = defaults.data(forKey: "IconEntries") {
+            if let decodedEntries = try? JSONDecoder().decode([IconEntry].self, from: savedData) {
+                return decodedEntries
+            }
+        }
+    }
+    return []
+}
+
+func saveIconEntries(_ entries: [IconEntry]) {
+    if let encodedData = try? JSONEncoder().encode(entries) {
+        if let defaults = UserDefaults(suiteName: appGroupUserDefaultsID) {
+            defaults.set(encodedData, forKey: "IconEntries")
+        }
+    }
+}
+
+func getSavedIconsFor(date: Date) -> [String]? {
+    let entries = fetchIconEntries()
+print(entries)
+print("-----------")
+    return entries.first { Calendar.current.isDate($0.date, inSameDayAs: date) }?.icons
+}
+
+func resetDefaults() {
+    if let bundleID = Bundle.main.bundleIdentifier {
+        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+    }
+    
+    if let defaults = UserDefaults(suiteName: appGroupUserDefaultsID) {
+        defaults.removeObject(forKey: "IconEntries")
     }
 }
 
