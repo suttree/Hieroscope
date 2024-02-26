@@ -102,7 +102,7 @@ struct RandomIconsWidgetEntryView: View {
                             Image(uiImage: entry.icon1)
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 18)
+                                .padding(.bottom, 14)
 
                             Rectangle()
                                 .fill(Color.white)
@@ -114,7 +114,7 @@ struct RandomIconsWidgetEntryView: View {
                             Image(uiImage: entry.icon2)
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 18)
+                                .padding(.bottom, 14)
 
                             Rectangle()
                                 .fill(Color.white)
@@ -126,7 +126,7 @@ struct RandomIconsWidgetEntryView: View {
                             Image(uiImage: entry.icon3)
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 18)
+                                .padding(.bottom, 14)
 
                             Rectangle()
                                 .fill(Color.white)
@@ -138,7 +138,7 @@ struct RandomIconsWidgetEntryView: View {
                             Image(uiImage: entry.icon4)
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 18)
+                                .padding(.bottom, 14)
 
                             Rectangle()
                                 .fill(Color.white)
@@ -213,7 +213,7 @@ struct RandomIconsProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        resetDefaults()
+        //resetDefaults()
 
         var entries: [RandomIconsEntry] = []
 
@@ -260,7 +260,7 @@ struct RandomIconsProvider: TimelineProvider {
             return chosen_icons.map { UIImage(named: $0) ?? UIImage() }
         } else {
             let storedIconNames = sharedDefaults.stringArray(forKey: "LastChosenIcons") ?? ["1.png", "2.png", "3.png", "4.png"]
-            saveIconsForTheDay(icons: [storedIconNames.joined(separator: ", ")])
+            //saveIconsForTheDay(icons: [storedIconNames.joined(separator: ", ")])
             return storedIconNames.map { UIImage(named: $0) ?? UIImage() }
         }
     }
@@ -269,7 +269,12 @@ struct RandomIconsProvider: TimelineProvider {
 func saveIconsForTheDay(icons: [String]) {
     let currentDate = Calendar.current.startOfDay(for: Date())
     
+    print("1")
+    print(currentDate)
+    
     var entries = fetchIconEntries()
+    
+    print(entries)
     
     if !entries.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
         let entry = IconEntry(date: currentDate, icons: icons)
@@ -293,6 +298,8 @@ func fetchIconEntries() -> [IconEntry] {
 func saveIconEntries(_ entries: [IconEntry]) {
     if let encodedData = try? JSONEncoder().encode(entries) {
         if let defaults = UserDefaults(suiteName: appGroupUserDefaultsID) {
+            print("2")
+            print(encodedData)
             defaults.set(encodedData, forKey: "IconEntries")
         }
     }
