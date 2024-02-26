@@ -98,18 +98,53 @@ struct RandomIconsWidgetEntryView: View {
 
                 case .systemMedium:
                     HStack {
-                        Image(uiImage: entry.icon1)
-                            .resizable()
-                            .scaledToFit()
-                        Image(uiImage: entry.icon2)
-                            .resizable()
-                            .scaledToFit()
-                        Image(uiImage: entry.icon3)
-                            .resizable()
-                            .scaledToFit()
-                        Image(uiImage: entry.icon4)
-                            .resizable()
-                            .scaledToFit()
+                        VStack(spacing: 0) {
+                            Image(uiImage: entry.icon1)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.bottom, 18)
+
+                            Rectangle()
+                                .fill(Color.white)
+                                .frame(height: 1)
+                        }
+                        .background(Color.clear)
+                        
+                        VStack(spacing: 0) {
+                            Image(uiImage: entry.icon2)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.bottom, 18)
+
+                            Rectangle()
+                                .fill(Color.white)
+                                .frame(height: 1)
+                        }
+                        .background(Color.clear)
+                        
+                        VStack(spacing: 0) {
+                            Image(uiImage: entry.icon3)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.bottom, 18)
+
+                            Rectangle()
+                                .fill(Color.white)
+                                .frame(height: 1)
+                        }
+                        .background(Color.clear)
+                        
+                        VStack(spacing: 0) {
+                            Image(uiImage: entry.icon4)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.bottom, 18)
+
+                            Rectangle()
+                                .fill(Color.white)
+                                .frame(height: 1)
+                        }
+                        .background(Color.clear)
                     }
                     Text(dayString())
                         .font(.system(.body, design: .serif).italic())

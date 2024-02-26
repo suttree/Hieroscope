@@ -108,6 +108,7 @@ struct ContentView: View {
             if let savedData = defaults.data(forKey: "IconEntries") {
                 if let decodedEntries = try? JSONDecoder().decode([IconEntry].self, from: savedData) {
                     self.iconEntries = decodedEntries
+                    print(self.iconEntries)
                 }
             }
         }
