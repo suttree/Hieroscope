@@ -89,12 +89,14 @@ struct RandomIconsWidgetEntryView: View {
                         Image(uiImage: entry.icon1)
                             .resizable()
                             .scaledToFit()
+                        HBorderView()
                         Text(dayString())
                             .font(.system(.body, design: .serif).italic())
                             .foregroundColor(Color(white: 0.2))
                             .multilineTextAlignment(.center)
                             .padding(.top, 5)
                     }
+                    .background(Color.clear)
 
                 case .systemMedium:
                     HStack {
@@ -103,22 +105,15 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-
-                            Rectangle()
-                                .fill(Color.white)
-                                .frame(height: 1)
+                            HBorderView()
                         }
                         .background(Color.clear)
-                        
                         VStack(spacing: 0) {
                             Image(uiImage: entry.icon2)
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-
-                            Rectangle()
-                                .fill(Color.white)
-                                .frame(height: 1)
+                            HBorderView()
                         }
                         .background(Color.clear)
                         
@@ -127,10 +122,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-
-                            Rectangle()
-                                .fill(Color.white)
-                                .frame(height: 1)
+                            HBorderView()
                         }
                         .background(Color.clear)
                         
@@ -139,10 +131,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-
-                            Rectangle()
-                                .fill(Color.white)
-                                .frame(height: 1)
+                            HBorderView()
                         }
                         .background(Color.clear)
                     }
