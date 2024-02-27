@@ -37,7 +37,7 @@ struct ContentView: View {
                 }
                 .listStyle(GroupedListStyle())
 
-                ForEach(iconEntries, id: \.date) { entry in
+                ForEach(iconEntries.reversed(), id: \.date) { entry in
                     let headerText = Text(dayString(from: entry.date))
                     Section(header: headerText) {
                         HStack() {
