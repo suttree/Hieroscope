@@ -34,24 +34,24 @@ struct HBorderCurrentStatusView: View {
     
     func partOfDay() -> Int {
         let hour = Calendar.current.component(.hour, from: Date())
-        
+
         switch hour {
-        case 0..<6: return 3 // Night
-        case 6..<12: return 0 // Morning
-        case 12..<18: return 1 // Afternoon
-        default: return 2 // Evening
+        case 0..<6: return 0 // Night
+        case 6..<12: return 1 // Morning
+        case 12..<18: return 2 // Afternoon
+        default: return 3 // Evening
         }
     }
     
     var body: some View {
         let gradient = Gradient(stops: [
             .init(color: .clear, location: 0),
-            .init(color: .clear, location: 0.25),
+            .init(color: .clear, location: 0.20),
             .init(color: partOfDay() == 0 ? .mint : .white, location: 0.35),
             .init(color: partOfDay() == 1 ? .mint : .white, location: 0.45),
             .init(color: partOfDay() == 2 ? .mint : .white, location: 0.55),
             .init(color: partOfDay() == 3 ? .mint : .white, location: 0.65),
-            .init(color: .clear, location: 0.75),
+            .init(color: .clear, location: 0.80),
             .init(color: .clear, location: 1)
         ])
         
