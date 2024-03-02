@@ -27,6 +27,8 @@ func dayString() -> String {
 }
 
 struct HBorderCurrentStatusView: View {
+    var timeOfDay: Int?
+    
     var isHourDivisibleBySix: Bool {
         let currentHour = Calendar.current.component(.hour, from: Date())
         return currentHour % 6 == 0
@@ -36,21 +38,23 @@ struct HBorderCurrentStatusView: View {
         let hour = Calendar.current.component(.hour, from: Date())
 
         switch hour {
-        case 0..<6: return 0 // Night
-        case 6..<12: return 1 // Morning
-        case 12..<18: return 2 // Afternoon
-        default: return 3 // Evening
+        case 0..<6: return 0
+        case 6..<12: return 1
+        case 12..<18: return 2
+        default: return 3
         }
     }
     
     var body: some View {
+        let currentPartOfDay = timeOfDay ?? partOfDay()
+        
         let gradient = Gradient(stops: [
             .init(color: .clear, location: 0),
             .init(color: .clear, location: 0.20),
-            .init(color: partOfDay() == 0 ? .mint : .white, location: 0.35),
-            .init(color: partOfDay() == 1 ? .mint : .white, location: 0.45),
-            .init(color: partOfDay() == 2 ? .mint : .white, location: 0.55),
-            .init(color: partOfDay() == 3 ? .mint : .white, location: 0.65),
+            .init(color: currentPartOfDay == 0 ? .mint : .white, location: 0.35),
+            .init(color: currentPartOfDay == 1 ? .mint : .white, location: 0.45),
+            .init(color: currentPartOfDay == 2 ? .mint : .white, location: 0.55),
+            .init(color: currentPartOfDay == 3 ? .mint : .white, location: 0.65),
             .init(color: .clear, location: 0.80),
             .init(color: .clear, location: 1)
         ])
@@ -141,7 +145,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(timeOfDay: 0)
                         }
                         .background(Color.clear)
                         VStack(spacing: 0) {
@@ -149,7 +153,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(timeOfDay: 1)
                         }
                         .background(Color.clear)
                         
@@ -158,7 +162,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(timeOfDay: 2)
                         }
                         .background(Color.clear)
                         
@@ -167,7 +171,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(timeOfDay: 3)
                         }
                         .background(Color.clear)
                     }
@@ -252,9 +256,11 @@ struct RandomIconsProvider: TimelineProvider {
         for hourOffset in stride(from: 0, to: 24, by: 6) {
             guard let entryDate = calendar.date(byAdding: .hour, value: hourOffset, to: currentDate) else { continue }
 
-            if hourOffset != 0 {
+            /*
+             if hourOffset != 0 {
                 icons.rotate()
             }
+            */
 
             let entry = RandomIconsEntry(date: entryDate, icon1: icons[0], icon2: icons[1], icon3: icons[2], icon4: icons[3])
             entries.append(entry)
