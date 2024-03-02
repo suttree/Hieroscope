@@ -62,12 +62,12 @@ struct ContentView: View {
                     .listStyle(GroupedListStyle())
                 
                 ScrollView {
-                    let icons = Array(iconNames.shuffled().prefix(20))
+                    let icons = Array(iconNames.shuffled().prefix(8))
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(icons.indices, id: \.self) { index in
                             let iconName = icons[index]
                             let img = UIImage(named: iconName) ?? UIImage()
-                            let totalIcons = icons.count + 2
+                            let totalIcons = icons.count
                             let opacity = Double(totalIcons - index) / Double(totalIcons)
                             
                             Image(uiImage: img)

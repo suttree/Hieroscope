@@ -26,6 +26,42 @@ func dayString() -> String {
     return "\(dayString)"
 }
 
+struct HBorderCurrentStatusView: View {
+    var isHourDivisibleBySix: Bool {
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        return currentHour % 6 == 0
+    }
+    
+    func partOfDay() -> Int {
+        let hour = Calendar.current.component(.hour, from: Date())
+        
+        switch hour {
+        case 0..<6: return 3 // Night
+        case 6..<12: return 0 // Morning
+        case 12..<18: return 1 // Afternoon
+        default: return 2 // Evening
+        }
+    }
+    
+    var body: some View {
+        let gradient = Gradient(stops: [
+            .init(color: .clear, location: 0),
+            .init(color: .clear, location: 0.25),
+            .init(color: partOfDay() == 0 ? .mint : .white, location: 0.35),
+            .init(color: partOfDay() == 1 ? .mint : .white, location: 0.45),
+            .init(color: partOfDay() == 2 ? .mint : .white, location: 0.55),
+            .init(color: partOfDay() == 3 ? .mint : .white, location: 0.65),
+            .init(color: .clear, location: 0.75),
+            .init(color: .clear, location: 1)
+        ])
+        
+        return LinearGradient(gradient: gradient,
+                              startPoint: .leading,
+                              endPoint: .trailing)
+            .frame(width: nil, height: 1)
+    }
+}
+
 struct HBorderView: View {
     var body: some View {
         let gradient = Gradient(stops: [
@@ -89,7 +125,7 @@ struct RandomIconsWidgetEntryView: View {
                         Image(uiImage: entry.icon1)
                             .resizable()
                             .scaledToFit()
-                        HBorderView()
+                        HBorderCurrentStatusView()
                         Text(dayString())
                             .font(.system(.body, design: .serif).italic())
                             .foregroundColor(Color(white: 0.2))
