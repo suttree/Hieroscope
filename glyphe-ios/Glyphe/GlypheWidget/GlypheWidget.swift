@@ -120,13 +120,33 @@ struct RandomIconsWidgetEntryView: View {
     var entry: RandomIconsEntry
 
     @Environment(\.widgetFamily) var widgetFamily
+    
+    private func rotatedIcons() -> [UIImage] {
+         var icons = [entry.icon1, entry.icon2, entry.icon3, entry.icon4]
+         let rotations = partOfDay()
+         for _ in 0..<rotations {
+             icons.rotate()
+         }
+         return icons
+     }
+
+     private func partOfDay() -> Int {
+         let hour = Calendar.current.component(.hour, from: Date())
+         switch hour {
+         case 0..<6: return 0 // Night
+         case 6..<12: return 1 // Morning
+         case 12..<18: return 2 // Afternoon
+         default: return 3 // Evening
+         }
+     }
 
     var body: some View {
             Group {
                 switch widgetFamily {
                 case .systemSmall:
+                    let icons = rotatedIcons()
                     VStack {
-                        Image(uiImage: entry.icon1)
+                        Image(uiImage: icons[0])
                             .resizable()
                             .scaledToFit()
                         HBorderCurrentStatusView()
@@ -181,26 +201,27 @@ struct RandomIconsWidgetEntryView: View {
                         .padding(.top, 5)
 
                 case .systemLarge:
+                    let icons = rotatedIcons()
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
-                            Image(uiImage: entry.icon1)
+                            Image(uiImage: icons[0])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(5)
                             VBorderView(isTop: true)
-                            Image(uiImage: entry.icon2)
+                            Image(uiImage: icons[1])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(5)
                         }
                         HBorderView()
                         HStack(spacing: 0) {
-                            Image(uiImage: entry.icon3)
+                            Image(uiImage: icons[2])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(5)
                             VBorderView(isTop: false)
-                            Image(uiImage: entry.icon4)
+                            Image(uiImage: icons[3])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(5)
@@ -256,12 +277,6 @@ struct RandomIconsProvider: TimelineProvider {
         for hourOffset in stride(from: 0, to: 24, by: 6) {
             guard let entryDate = calendar.date(byAdding: .hour, value: hourOffset, to: currentDate) else { continue }
 
-            /*
-             if hourOffset != 0 {
-                icons.rotate()
-            }
-            */
-
             let entry = RandomIconsEntry(date: entryDate, icon1: icons[0], icon2: icons[1], icon3: icons[2], icon4: icons[3])
             entries.append(entry)
         }
@@ -299,13 +314,7 @@ struct RandomIconsProvider: TimelineProvider {
 
 func saveIconsForTheDay(icons: [String]) {
     let currentDate = Calendar.current.startOfDay(for: Date())
-    
-    print("1")
-    print(currentDate)
-    
     var entries = fetchIconEntries()
-    
-    print(entries)
     
     if !entries.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
         let entry = IconEntry(date: currentDate, icons: icons)
