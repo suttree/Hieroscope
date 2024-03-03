@@ -58,12 +58,12 @@ struct ContentView: View {
                 Link(destination: URL(string: "https://thenounproject.com/AliceNoir/")!) {
                     Text("Glyphes by Alice Noir")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color.secondary)
+                        .foregroundColor(Color.gray)
                         .underline()
                 }
                 .padding(.horizontal)
-                .padding(.top, 18)
-                .padding(.bottom, 24)
+                .padding(.top, 4)
+                .padding(.bottom, 4)
             }
             .navigationBarTitle("Glyphe", displayMode: .inline)
             .accentColor(.secondary)

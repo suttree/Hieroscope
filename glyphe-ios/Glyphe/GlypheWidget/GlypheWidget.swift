@@ -44,20 +44,60 @@ struct HBorderCurrentStatusView: View {
         default: return 3
         }
     }
-    
+
     var body: some View {
         let currentPartOfDay = timeOfDay ?? partOfDay()
         
-        let gradient = Gradient(stops: [
-            .init(color: .clear, location: 0),
-            .init(color: .clear, location: 0.20),
-            .init(color: currentPartOfDay == 0 ? .mint : .white, location: 0.35),
-            .init(color: currentPartOfDay == 1 ? .mint : .white, location: 0.45),
-            .init(color: currentPartOfDay == 2 ? .mint : .white, location: 0.55),
-            .init(color: currentPartOfDay == 3 ? .mint : .white, location: 0.65),
-            .init(color: .clear, location: 0.80),
-            .init(color: .clear, location: 1)
-        ])
+        var stops: [Gradient.Stop] = []
+
+        if currentPartOfDay == 0 {
+            stops += [
+                .init(color: .clear, location: 0),
+                .init(color: .clear, location: 0.20),
+                .init(color: .gray, location: 0.35),
+            ]
+        } else {
+            stops += [
+                .init(color: .clear, location: 0),
+                .init(color: .white, location: 0.20),
+            ]
+        }
+
+        if currentPartOfDay == 1 {
+            stops += [
+                .init(color: .gray, location: 0.40),
+            ]
+        } else {
+            stops += [
+                .init(color: .white, location: 0.40),
+            ]
+        }
+    
+        if currentPartOfDay == 2 {
+            stops += [
+                .init(color: .gray, location: 0.60),
+            ]
+        } else {
+            stops += [
+                .init(color: .white, location: 0.60),
+            ]
+        }
+        
+        if currentPartOfDay == 3 {
+            stops += [
+                .init(color: .gray, location: 0.75),
+                .init(color: .clear, location: 0.80),
+                .init(color: .clear, location: 1)
+                
+            ]
+        } else {
+            stops += [
+                .init(color: .white, location: 0.80),
+                .init(color: .clear, location: 1)
+            ]
+        }
+
+        let gradient = Gradient(stops: stops)
         
         return LinearGradient(gradient: gradient,
                               startPoint: .leading,
@@ -127,6 +167,7 @@ struct RandomIconsWidgetEntryView: View {
          for _ in 0..<rotations {
              icons.rotate()
          }
+         //debugPrint(icons)
          return icons
      }
 
@@ -145,6 +186,7 @@ struct RandomIconsWidgetEntryView: View {
                 switch widgetFamily {
                 case .systemSmall:
                     let icons = rotatedIcons()
+
                     VStack {
                         Image(uiImage: icons[0])
                             .resizable()
@@ -272,7 +314,7 @@ struct RandomIconsProvider: TimelineProvider {
 
         guard let startOfNextDay = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: currentDate)) else { return }
 
-        var icons = fetchRandomIconsIfNeeded(currentDate: currentDate)
+        let icons = fetchRandomIconsIfNeeded(currentDate: currentDate)
 
         for hourOffset in stride(from: 0, to: 24, by: 6) {
             guard let entryDate = calendar.date(byAdding: .hour, value: hourOffset, to: currentDate) else { continue }
