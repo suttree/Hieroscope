@@ -47,58 +47,19 @@ struct HBorderCurrentStatusView: View {
 
     var body: some View {
         let currentPartOfDay = timeOfDay ?? partOfDay()
+        let silver = Color(red: 0.75, green: 0.75, blue: 0.75)
         
-        var stops: [Gradient.Stop] = []
+        let gradient = Gradient(stops: [
+            .init(color: .clear, location: 0),
+            .init(color: .clear, location: 0.20),
+            .init(color: currentPartOfDay == 0 ? silver : .white, location: 0.35),
+            .init(color: currentPartOfDay == 1 ? silver : .white, location: 0.45),
+            .init(color: currentPartOfDay == 2 ? silver : .white, location: 0.55),
+            .init(color: currentPartOfDay == 3 ? silver : .white, location: 0.65),
+            .init(color: .clear, location: 0.80),
+            .init(color: .clear, location: 1)
+        ])
 
-        if currentPartOfDay == 0 {
-            stops += [
-                .init(color: .clear, location: 0),
-                .init(color: .clear, location: 0.20),
-                .init(color: .gray, location: 0.35),
-            ]
-        } else {
-            stops += [
-                .init(color: .clear, location: 0),
-                .init(color: .white, location: 0.20),
-            ]
-        }
-
-        if currentPartOfDay == 1 {
-            stops += [
-                .init(color: .gray, location: 0.40),
-            ]
-        } else {
-            stops += [
-                .init(color: .white, location: 0.40),
-            ]
-        }
-    
-        if currentPartOfDay == 2 {
-            stops += [
-                .init(color: .gray, location: 0.60),
-            ]
-        } else {
-            stops += [
-                .init(color: .white, location: 0.60),
-            ]
-        }
-        
-        if currentPartOfDay == 3 {
-            stops += [
-                .init(color: .gray, location: 0.75),
-                .init(color: .clear, location: 0.80),
-                .init(color: .clear, location: 1)
-                
-            ]
-        } else {
-            stops += [
-                .init(color: .white, location: 0.80),
-                .init(color: .clear, location: 1)
-            ]
-        }
-
-        let gradient = Gradient(stops: stops)
-        
         return LinearGradient(gradient: gradient,
                               startPoint: .leading,
                               endPoint: .trailing)
@@ -174,10 +135,10 @@ struct RandomIconsWidgetEntryView: View {
      private func partOfDay() -> Int {
          let hour = Calendar.current.component(.hour, from: Date())
          switch hour {
-         case 0..<6: return 0 // Night
-         case 6..<12: return 1 // Morning
-         case 12..<18: return 2 // Afternoon
-         default: return 3 // Evening
+         case 0..<6: return 0
+         case 6..<12: return 1
+         case 12..<18: return 2
+         default: return 3
          }
      }
 
@@ -314,10 +275,14 @@ struct RandomIconsProvider: TimelineProvider {
 
         guard let startOfNextDay = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: currentDate)) else { return }
 
-        let icons = fetchRandomIconsIfNeeded(currentDate: currentDate)
+        var icons = fetchRandomIconsIfNeeded(currentDate: currentDate)
 
         for hourOffset in stride(from: 0, to: 24, by: 6) {
             guard let entryDate = calendar.date(byAdding: .hour, value: hourOffset, to: currentDate) else { continue }
+
+            if hourOffset != 0 {
+                icons.rotate()
+            }
 
             let entry = RandomIconsEntry(date: entryDate, icon1: icons[0], icon2: icons[1], icon3: icons[2], icon4: icons[3])
             entries.append(entry)
