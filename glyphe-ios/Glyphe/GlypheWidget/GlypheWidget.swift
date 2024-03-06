@@ -132,6 +132,16 @@ struct RandomIconsWidgetEntryView: View {
          return icons
      }
 
+    private func unrotatedIcons() -> [UIImage] {
+         var icons = [entry.icon1, entry.icon2, entry.icon3, entry.icon4]
+         let rotations = partOfDay()
+         for _ in 0..<rotations {
+             icons.unrotate()
+         }
+         //debugPrint(icons)
+         return icons
+     }
+
      private func partOfDay() -> Int {
          let hour = Calendar.current.component(.hour, from: Date())
          switch hour {
@@ -162,9 +172,12 @@ struct RandomIconsWidgetEntryView: View {
                     .background(Color.clear)
 
                 case .systemMedium:
+                    //let icons = rotatedIcons()
+                    let icons = unrotatedIcons()
+                    
                     HStack {
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon1)
+                            Image(uiImage: icons[0])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
@@ -172,7 +185,7 @@ struct RandomIconsWidgetEntryView: View {
                         }
                         .background(Color.clear)
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon2)
+                            Image(uiImage: icons[1])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
@@ -181,7 +194,7 @@ struct RandomIconsWidgetEntryView: View {
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon3)
+                            Image(uiImage: icons[2])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
@@ -190,7 +203,7 @@ struct RandomIconsWidgetEntryView: View {
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon4)
+                            Image(uiImage: icons[3])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
@@ -372,6 +385,13 @@ extension Array {
         if let firstElement = self.first {
             self.append(firstElement)
             self.removeFirst()
+        }
+    }
+    
+    mutating func unrotate() {
+        if let lastElement = self.last {
+            self.append(lastElement)
+            self.removeLast()
         }
     }
 }
