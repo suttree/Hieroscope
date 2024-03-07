@@ -48,7 +48,7 @@ struct HBorderCurrentStatusView: View {
     var body: some View {
         let currentPartOfDay = timeOfDay ?? partOfDay()
         let silver = Color(red: 0.75, green: 0.75, blue: 0.75)
-        
+
         let gradient = Gradient(stops: [
             .init(color: .clear, location: 0),
             .init(color: .clear, location: 0.20),
@@ -174,6 +174,7 @@ struct RandomIconsWidgetEntryView: View {
                 case .systemMedium:
                     //let icons = rotatedIcons()
                     let icons = unrotatedIcons()
+                    
                     
                     HStack {
                         VStack(spacing: 0) {
@@ -358,8 +359,6 @@ func fetchIconEntries() -> [IconEntry] {
 func saveIconEntries(_ entries: [IconEntry]) {
     if let encodedData = try? JSONEncoder().encode(entries) {
         if let defaults = UserDefaults(suiteName: appGroupUserDefaultsID) {
-            print("2")
-            print(encodedData)
             defaults.set(encodedData, forKey: "IconEntries")
         }
     }
