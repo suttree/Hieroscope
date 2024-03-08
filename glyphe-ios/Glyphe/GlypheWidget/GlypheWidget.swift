@@ -46,20 +46,20 @@ struct HBorderCurrentStatusView: View {
     }
 
     var body: some View {
-        let currentPartOfDay = timeOfDay ?? partOfDay()
+        let currentPartOfDay = partOfDay()
         let silver = Color(red: 0.75, green: 0.75, blue: 0.75)
+        let gold = Color(red: 254 / 255, green: 166 / 255, blue: 33 / 255)
 
         let gradient = Gradient(stops: [
             .init(color: .clear, location: 0),
             .init(color: .clear, location: 0.20),
-            .init(color: currentPartOfDay == 0 ? silver : .white, location: 0.35),
-            .init(color: currentPartOfDay == 1 ? silver : .white, location: 0.45),
-            .init(color: currentPartOfDay == 2 ? silver : .white, location: 0.55),
-            .init(color: currentPartOfDay == 3 ? silver : .white, location: 0.65),
+            .init(color: (timeOfDay != nil && timeOfDay == currentPartOfDay && currentPartOfDay == 0) ? gold : (currentPartOfDay == 0 ? silver : .white), location: 0.35),
+            .init(color: (timeOfDay != nil && timeOfDay == currentPartOfDay && currentPartOfDay == 1) ? gold : (currentPartOfDay == 1 ? silver : .white), location: 0.45),
+            .init(color: (timeOfDay != nil && timeOfDay == currentPartOfDay && currentPartOfDay == 2) ? gold : (currentPartOfDay == 2 ? silver : .white), location: 0.55),
+            .init(color: (timeOfDay != nil && timeOfDay == currentPartOfDay && currentPartOfDay == 3) ? gold : (currentPartOfDay == 3 ? silver : .white), location: 0.65),
             .init(color: .clear, location: 0.80),
             .init(color: .clear, location: 1)
         ])
-
         return LinearGradient(gradient: gradient,
                               startPoint: .leading,
                               endPoint: .trailing)
@@ -174,7 +174,6 @@ struct RandomIconsWidgetEntryView: View {
                 case .systemMedium:
                     //let icons = rotatedIcons()
                     let icons = unrotatedIcons()
-                    
                     
                     HStack {
                         VStack(spacing: 0) {
