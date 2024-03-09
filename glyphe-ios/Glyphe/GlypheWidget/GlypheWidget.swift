@@ -134,10 +134,10 @@ struct RandomIconsWidgetEntryView: View {
 
     private func unrotatedIcons() -> [UIImage] {
          var icons = [entry.icon1, entry.icon2, entry.icon3, entry.icon4]
-         let rotations = partOfDay()
-         for _ in 0..<rotations {
-             icons.unrotate()
-         }
+         //let rotations = partOfDay()
+         //for _ in 0..<rotations {
+         //    icons.unrotate()
+         //}
          //debugPrint(icons)
          return icons
      }
