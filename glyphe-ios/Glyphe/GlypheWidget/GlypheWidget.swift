@@ -26,6 +26,16 @@ func dayString() -> String {
     return "\(dayString)"
 }
 
+func partOfDay() -> Int {
+     let hour = Calendar.current.component(.hour, from: Date())
+     switch hour {
+     case 0..<6: return 0
+     case 6..<12: return 1
+     case 12..<18: return 2
+     default: return 3
+     }
+}
+
 struct HBorderView: View {
     var body: some View {
         let gradient = Gradient(stops: [
@@ -41,6 +51,39 @@ struct HBorderView: View {
                               startPoint: .leading,
                               endPoint: .trailing)
             .frame(width: nil, height: 1)
+    }
+}
+
+struct HBorderCurrentStatusView: View {
+    let iconIndex: Int
+    let activePartOfDay: Int
+
+    var body: some View {
+        //let gold = Color(red: 254 / 255, green: 210 / 255, blue: 33 / 255)
+        //let gold = Color(red: 254 / 255, green: 166 / 255, blue: 33 / 255)
+
+        if iconIndex == activePartOfDay {
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: [Color.mint, Color.clear]), startPoint: .leading, endPoint: .trailing))
+                .frame(width: 60, height: 0.75) // Adjust the width and height as needed
+        }
+
+
+/*        ZStack {
+            // Use a transparent background to ensure the ZStack takes up enough space for centering
+            Color.clear
+            
+            // Conditionally show the circle if this is the active icon
+            if iconIndex == activePartOfDay {
+                Circle()
+                    .fill(gold)
+                    .frame(width: 2, height: 2) // Adjusted to make the dot visible as per your previous code
+                    .alignmentGuide(VerticalAlignment.center) { d in d[VerticalAlignment.center] }
+                    .alignmentGuide(HorizontalAlignment.center) { d in d[HorizontalAlignment.center] }
+            }
+        }
+        .frame(width: 20, height: 20)
+*/
     }
 }
 
@@ -81,6 +124,20 @@ struct RandomIconsWidgetEntryView: View {
 
     @Environment(\.widgetFamily) var widgetFamily
 
+    private func originalIcons() -> [UIImage] {
+        let currentRotation = partOfDay()
+        var icons = [entry.icon1, entry.icon2, entry.icon3, entry.icon4]
+
+        // Rotate the icons back to their original order
+        for _ in 0..<currentRotation {
+            if let last = icons.popLast() {
+                icons.insert(last, at: 0)
+            }
+        }
+
+        return icons
+    }
+    
     var body: some View {
             Group {
                 switch widgetFamily {
@@ -89,7 +146,6 @@ struct RandomIconsWidgetEntryView: View {
                         Image(uiImage: entry.icon1)
                             .resizable()
                             .scaledToFit()
-                        HBorderView()
                         Text(dayString())
                             .font(.system(.body, design: .serif).italic())
                             .foregroundColor(Color(white: 0.2))
@@ -99,39 +155,41 @@ struct RandomIconsWidgetEntryView: View {
                     .background(Color.clear)
 
                 case .systemMedium:
+                    let activePartOfDay = partOfDay()
+                    
                     HStack {
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon1)
+                            Image(uiImage: originalIcons()[0])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(iconIndex: 0, activePartOfDay: activePartOfDay)
                         }
                         .background(Color.clear)
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon2)
+                            Image(uiImage: originalIcons()[1])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
-                        }
-                        .background(Color.clear)
-                        
-                        VStack(spacing: 0) {
-                            Image(uiImage: entry.icon3)
-                                .resizable()
-                                .scaledToFit()
-                                .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(iconIndex: 1, activePartOfDay: activePartOfDay)
                         }
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
-                            Image(uiImage: entry.icon4)
+                            Image(uiImage: originalIcons()[2])
                                 .resizable()
                                 .scaledToFit()
                                 .padding(.bottom, 14)
-                            HBorderView()
+                            HBorderCurrentStatusView(iconIndex: 2, activePartOfDay: activePartOfDay)
+                        }
+                        .background(Color.clear)
+                        
+                        VStack(spacing: 0) {
+                            Image(uiImage: originalIcons()[3])
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.bottom, 14)
+                            HBorderCurrentStatusView(iconIndex: 3, activePartOfDay: activePartOfDay)
                         }
                         .background(Color.clear)
                     }
@@ -258,12 +316,7 @@ struct RandomIconsProvider: TimelineProvider {
 func saveIconsForTheDay(icons: [String]) {
     let currentDate = Calendar.current.startOfDay(for: Date())
     
-    print("1")
-    print(currentDate)
-    
     var entries = fetchIconEntries()
-    
-    print(entries)
     
     if !entries.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
         let entry = IconEntry(date: currentDate, icons: icons)
