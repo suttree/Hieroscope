@@ -65,7 +65,7 @@ struct HBorderCurrentStatusView: View {
         if iconIndex == activePartOfDay {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.mint, Color.clear]), startPoint: .leading, endPoint: .trailing))
-                .frame(width: 60, height: 0.75) // Adjust the width and height as needed
+                .frame(width: 60, height: 0.75)
         }
     }
 }
@@ -104,11 +104,16 @@ struct VBorderView: View {
 
 struct VGradientBorderView: View {
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [Color.clear, Color.white, Color.clear]), startPoint: .top, endPoint: .bottom)
+        LinearGradient(gradient: Gradient(stops: [
+            .init(color: .clear, location: 0.0),
+            .init(color: .clear, location: 0.25),
+            .init(color: .white, location: 0.5),
+            .init(color: .clear, location: 0.75),
+            .init(color: .clear, location: 1.0)
+        ]), startPoint: .top, endPoint: .bottom)
             .frame(width: 1)
     }
 }
-
 
 struct RandomIconsWidgetEntryView: View {
     var entry: RandomIconsEntry
@@ -119,7 +124,6 @@ struct RandomIconsWidgetEntryView: View {
         let currentRotation = partOfDay()
         var icons = [entry.icon1, entry.icon2, entry.icon3, entry.icon4]
 
-        // Rotate the icons back to their original order
         for _ in 0..<currentRotation {
             if let last = icons.popLast() {
                 icons.insert(last, at: 0)
@@ -153,27 +157,24 @@ struct RandomIconsWidgetEntryView: View {
                             Image(uiImage: originalIcons()[0])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 10)
-                            //HBorderCurrentStatusView(iconIndex: 0, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 4)
                         }
                         VGradientBorderView()
                         .background(Color.clear)
+                        
                         VStack(spacing: 0) {
                             Image(uiImage: originalIcons()[1])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 10)
-                            //HBorderCurrentStatusView(iconIndex: 1, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 4)
                         }
-                        //VGradientBorderView()
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
                             Image(uiImage: originalIcons()[2])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 10)
-                            //HBorderCurrentStatusView(iconIndex: 2, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 4)
                         }
                         VGradientBorderView()
                         .background(Color.clear)
@@ -182,10 +183,8 @@ struct RandomIconsWidgetEntryView: View {
                             Image(uiImage: originalIcons()[3])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 10)
-                            //HBorderCurrentStatusView(iconIndex: 3, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 4)
                         }
-                        //VGradientBorderView()
                         .background(Color.clear)
                     }
                     Text(dayString())
