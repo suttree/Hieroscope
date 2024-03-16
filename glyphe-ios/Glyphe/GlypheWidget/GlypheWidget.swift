@@ -67,23 +67,6 @@ struct HBorderCurrentStatusView: View {
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.mint, Color.clear]), startPoint: .leading, endPoint: .trailing))
                 .frame(width: 60, height: 0.75) // Adjust the width and height as needed
         }
-
-
-/*        ZStack {
-            // Use a transparent background to ensure the ZStack takes up enough space for centering
-            Color.clear
-            
-            // Conditionally show the circle if this is the active icon
-            if iconIndex == activePartOfDay {
-                Circle()
-                    .fill(gold)
-                    .frame(width: 2, height: 2) // Adjusted to make the dot visible as per your previous code
-                    .alignmentGuide(VerticalAlignment.center) { d in d[VerticalAlignment.center] }
-                    .alignmentGuide(HorizontalAlignment.center) { d in d[HorizontalAlignment.center] }
-            }
-        }
-        .frame(width: 20, height: 20)
-*/
     }
 }
 
@@ -118,6 +101,14 @@ struct VBorderView: View {
         }
     }
 }
+
+struct VGradientBorderView: View {
+    var body: some View {
+        LinearGradient(gradient: Gradient(colors: [Color.clear, Color.white, Color.clear]), startPoint: .top, endPoint: .bottom)
+            .frame(width: 1)
+    }
+}
+
 
 struct RandomIconsWidgetEntryView: View {
     var entry: RandomIconsEntry
@@ -155,42 +146,46 @@ struct RandomIconsWidgetEntryView: View {
                     .background(Color.clear)
 
                 case .systemMedium:
-                    let activePartOfDay = partOfDay()
+                    //let activePartOfDay = partOfDay()
                     
                     HStack {
                         VStack(spacing: 0) {
                             Image(uiImage: originalIcons()[0])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 14)
-                            HBorderCurrentStatusView(iconIndex: 0, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 10)
+                            //HBorderCurrentStatusView(iconIndex: 0, activePartOfDay: activePartOfDay)
                         }
+                        VGradientBorderView()
                         .background(Color.clear)
                         VStack(spacing: 0) {
                             Image(uiImage: originalIcons()[1])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 14)
-                            HBorderCurrentStatusView(iconIndex: 1, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 10)
+                            //HBorderCurrentStatusView(iconIndex: 1, activePartOfDay: activePartOfDay)
                         }
+                        //VGradientBorderView()
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
                             Image(uiImage: originalIcons()[2])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 14)
-                            HBorderCurrentStatusView(iconIndex: 2, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 10)
+                            //HBorderCurrentStatusView(iconIndex: 2, activePartOfDay: activePartOfDay)
                         }
+                        VGradientBorderView()
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
                             Image(uiImage: originalIcons()[3])
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.bottom, 14)
-                            HBorderCurrentStatusView(iconIndex: 3, activePartOfDay: activePartOfDay)
+                                .padding(.bottom, 10)
+                            //HBorderCurrentStatusView(iconIndex: 3, activePartOfDay: activePartOfDay)
                         }
+                        //VGradientBorderView()
                         .background(Color.clear)
                     }
                     Text(dayString())
