@@ -168,6 +168,7 @@ struct RandomIconsWidgetEntryView: View {
                                 .scaledToFit()
                                 .padding(.bottom, 4)
                         }
+                        VGradientBorderView()
                         .background(Color.clear)
                         
                         VStack(spacing: 0) {
